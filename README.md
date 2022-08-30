@@ -1,2 +1,2 @@
-# tinycorelinux-custom-iso
-Scripts to build your custom Tiny Core Linux ISO image
+# TCE download
+Python script to download .tcz extenstions from the outside of the Tiny Core Linux
