@@ -28,6 +28,7 @@ with open('download.lst') as f: downloads = f.read().split('\n')[:-1]
 # download file
 def download(name, mode):
   filename = name.split('/')[-1]
+  if filename in listdir(TCE_PATH): return 1
   res = requests.get(name)
   if res.status_code != 200:
     if '.dep' in name and res.status_code == 404: return 0
