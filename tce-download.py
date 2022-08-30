@@ -59,4 +59,4 @@ def fetch(item):
 for item in downloads:
   fetch(item)
   with open('./tce/onboot.lst', 'a') as f:
-    a.append(item)
+    f.write(item)
