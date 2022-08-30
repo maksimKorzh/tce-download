@@ -57,7 +57,7 @@ def fetch(item):
 
   # resolve dependencies recursively
   if download(dep, 'w'):
-    depfile = [i for i in listdir(TCE_PATH) if (item + '.dep') in i][0]
+    depfile = dep.split('/')[-1]
     with open(TCE_PATH + depfile) as f:
       items = f.read().split('\n')
       for dep_item in items[:-1] if len(items) > 1 else items:
