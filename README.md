@@ -1,5 +1,5 @@
 # TCE download
-Download .tcz extenstions from the outside of the Tiny Core Linux
+Download .tcz extensions from the outside of the Tiny Core Linux
 
 # How to use
 1. Add the packages you need to download into download.lst file
