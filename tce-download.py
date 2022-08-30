@@ -1,6 +1,6 @@
 ##############################################
 #
-#    Tiny Core Linux packages downloader
+#     Tiny Core Linux package downloader
 #
 ##############################################
 
