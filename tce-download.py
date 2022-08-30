@@ -10,20 +10,11 @@ from os import system as sh
 from os import listdir
 import sys
 
-# mirror to download packages from
-MIRROR = 'http://repo.tinycorelinux.net/13.x/x86_64/tcz/'
-
-# tce package folder
-TCE_PATH = './tce/optional/'
-
-# clean up directory
-sh('rm -rf tce')
-
-# create directories
-sh('mkdir tce && mkdir tce/optional')
-
-# init downloads
-with open('download.lst') as f: downloads = f.read().split('\n')[:-1]
+##############################################
+#
+#             DOWNLOAD ROUTINES
+#
+##############################################
 
 # download file
 def download(name, mode):
@@ -56,8 +47,37 @@ def fetch(item):
       for dep_item in f.read().split('\n')[:-1]:
         fetch(dep_item)
 
+
+##############################################
+#
+#                  SETTINGS
+#
+##############################################
+
+# mirror to download packages from
+MIRROR = 'http://repo.tinycorelinux.net/13.x/x86_64/tcz/'
+
+# tce package folder
+TCE_PATH = './tce/optional/'
+
+
+##############################################
+#
+#                     MAIN
+#
+##############################################
+
+# clean up directory
+sh('rm -rf tce')
+
+# create directories
+sh('mkdir tce && mkdir tce/optional')
+
+# init downloads
+with open('download.lst') as f: downloads = f.read().split('\n')[:-1]
+
 # loop over the download items
 for item in downloads:
   fetch(item)
   with open('./tce/onboot.lst', 'a') as f:
-    f.write(item)
+    f.write(item + '\n')
