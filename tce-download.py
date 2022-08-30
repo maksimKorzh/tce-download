@@ -17,13 +17,12 @@ import sys
 ##############################################
 
 # download file
-def download(name, mode):
-  filename = name.split('/')[-1]
-  if filename in listdir(TCE_PATH): return 1
-  res = requests.get(name)
+def download(url, mode):
+  filename = url.split('/')[-1]
+  res = requests.get(url)
   if res.status_code != 200:
-    if '.dep' in name and res.status_code == 404: return 0
-    else: print(res, 'FAILED'); sys.exit(1)
+    if '.dep' in filename and res.status_code == 404: return 0
+    else: print(mode, url, 'filename: "' + filename + '"', res, 'FAILED'); sys.exit(1)
   else:
     print('Downloading "' + filename + '"... OK')
     with open(TCE_PATH + filename, mode) as f:
@@ -32,6 +31,7 @@ def download(name, mode):
 
 # fetch package
 def fetch(item):
+  # init urls
   tcz = MIRROR + item
   md5 = tcz + '.md5.txt'
   dep = tcz + '.dep'
@@ -52,8 +52,12 @@ def fetch(item):
   if download(dep, 'w'):
     depfile = [i for i in listdir(TCE_PATH) if (item + '.dep') in i][0]
     with open(TCE_PATH + depfile) as f:
-      for dep_item in f.read().split('\n')[:-1]:
-        fetch(dep_item)
+      items = f.read().split('\n')
+      for dep_item in items[:-1] if len(items) > 1 else items:
+        if dep_item != ' ':
+          if dep_item in listdir(TCE_PATH): return 1
+          print('Resolving dependency for "' + item + '":', dep_item)
+          fetch(dep_item)
 
 ##############################################
 #
@@ -84,6 +88,8 @@ with open('download.lst') as f: downloads = f.read().split('\n')[:-1]
 
 # loop over the download items
 for item in downloads:
-  fetch(item)
-  with open('./tce/onboot.lst', 'a') as f:
-    f.write(item + '\n')
+  try:
+    fetch(item)
+    with open('./tce/onboot.lst', 'a') as f:
+      f.write(item + '\n')
+  except Exception as e: print(e)

@@ -8,7 +8,10 @@ Download .tcz extensions from the outside of the Tiny Core Linux
 This would generate "/tce/onboot.lst" and populate "/tce/optional/" with your packages<br>
 You can than burn TinyCore.iso onto the USB flash drive, copy /tce folder to it<br>
 and specify the boot codes like: "waitusb=5 tce=sdb"<br>
-You should have your packages loaded on boot.
+You should have your packages loaded on boot after.
+
+# Video demo
+https://www.youtube.com/watch?v=bAY2xAUv5YQ
 
 # Credits
 Thanks to Juanito from TinyCoreLinux team for support on forum.
