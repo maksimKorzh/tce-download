@@ -39,6 +39,14 @@ def fetch(item):
   # download files
   download(tcz, 'wb')
   download(md5, 'w')
+  
+  # checksums
+  sh('md5sum ' + TCE_PATH + item + ' > ' + TCE_PATH + 'test.' + item)
+  with open(TCE_PATH + 'test.' + item) as f: checksum = f.read().split(' ')[0]
+  with open(TCE_PATH + item + '.md5.txt') as f: candidate = f.read().split(' ')[0]
+  if checksum != candidate: print('Checksome... FAILED'); sys.exit(1)
+  print('Checksum... OK')
+  sh('rm -f ' + TCE_PATH + 'test.' + item)
 
   # resolve dependencies recursively
   if download(dep, 'w'):
@@ -46,7 +54,6 @@ def fetch(item):
     with open(TCE_PATH + depfile) as f:
       for dep_item in f.read().split('\n')[:-1]:
         fetch(dep_item)
-
 
 ##############################################
 #
@@ -59,7 +66,6 @@ MIRROR = 'http://repo.tinycorelinux.net/13.x/x86_64/tcz/'
 
 # tce package folder
 TCE_PATH = './tce/optional/'
-
 
 ##############################################
 #
