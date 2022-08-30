@@ -22,7 +22,7 @@ def download(url, mode):
   res = requests.get(url)
   if res.status_code != 200:
     if '.dep' in filename and res.status_code == 404: return 0
-    else: print(mode, url, 'filename: "' + filename + '"', res, 'FAILED'); sys.exit(1)
+    else: print('filename: "' + filename + '"', res, 'doesn\'t exist!'); return 2
   else:
     print('Downloading "' + filename + '"... OK')
     with open(TCE_PATH + filename, mode) as f:
@@ -31,16 +31,23 @@ def download(url, mode):
 
 # fetch package
 def fetch(item):
+  # substitute KERNEL
+  if 'KERNEL' in item:
+    item = item.replace('KERNEL', '5.15.10-tinycore64')
+    # for 32-bit version use '5.15.10-tinycore'
+  
   # init urls
   tcz = MIRROR + item
   md5 = tcz + '.md5.txt'
   dep = tcz + '.dep'
   
-  # download files
-  download(tcz, 'wb')
+  # download package
+  if download(tcz, 'wb') == 2: return
+  
+  # download checksum
   download(md5, 'w')
   
-  # checksums
+  # check checksums
   sh('md5sum ' + TCE_PATH + item + ' > ' + TCE_PATH + 'test.' + item)
   with open(TCE_PATH + 'test.' + item) as f: checksum = f.read().split(' ')[0]
   with open(TCE_PATH + item + '.md5.txt') as f: candidate = f.read().split(' ')[0]
