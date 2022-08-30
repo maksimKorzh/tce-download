@@ -1,6 +1,6 @@
 ##############################################
 #
-# Tiny Core Linux *.tcz packages downloader
+#    Tiny Core Linux packages downloader
 #
 ##############################################
 
