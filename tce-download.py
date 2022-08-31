@@ -31,6 +31,9 @@ def download(url, mode):
 
 # fetch package
 def fetch(item):
+  # return if no url
+  if item == '': return
+  
   # substitute KERNEL
   if 'KERNEL' in item:
     # for 32-bit version use '5.15.10-tinycore'
@@ -80,6 +83,7 @@ def check_deps(item):
       print('BUG ALERT! missing dependency:', dep)
       print('Please report the bug to "freesoft.for.people@gmail.com" if you see this message')
       sys.exit(1)
+  print('Verifying dependencies for "' + item + '"... OK')
 
 ##############################################
 #
@@ -115,4 +119,4 @@ for item in downloads:
     check_deps(item)
     with open('./tce/onboot.lst', 'a') as f:
       f.write(item + '\n')
-  except Exception as e: print(e)
+  except: pass
