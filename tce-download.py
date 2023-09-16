@@ -92,7 +92,7 @@ def check_deps(item):
 ##############################################
 
 # mirror to download packages from
-MIRROR = 'http://repo.tinycorelinux.net/13.x/x86_64/tcz/'
+MIRROR = 'http://repo.tinycorelinux.net/14.x/x86_64/tcz/'
 
 # tce package folder
 TCE_PATH = './tce/optional/'
